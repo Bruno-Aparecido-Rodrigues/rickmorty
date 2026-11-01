@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: rickmorty
+
+rick-and-morty:
+  url: https://rickandmortyapi.com/api
+
+resilience4j:
+  retry:
+    instances:
+      personagemApi:           # @Retry(name = "personagemApi")
+        max-attempts: 3
+        wait-duration: 500ms
+        retry-exceptions:
+          - org.springframework.web.client.ResourceAccessException    # timeout / sem conexão
+          - org.springframework.web.client.HttpServerErrorException   # erro 5xx da API
