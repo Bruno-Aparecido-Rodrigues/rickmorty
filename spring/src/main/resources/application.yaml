@@ -2,15 +2,36 @@ spring:
   application:
     name: rickmorty
 
+  # Conexão com o CloudAMQP (porta 5671 = AMQP com SSL)
+  rabbitmq:
+    host: jaragua.lmq.cloudamqp.com
+    port: 5671
+    username: kegxjddm
+    password: zwUtIQyBn1odwOvTKSRFc9mxG2nSwht5
+    virtual-host: kegxjddm
+    ssl:
+      enabled: true
+
 rick-and-morty:
   url: https://rickandmortyapi.com/api
+
+rabbit:
+  exchange: personagem.exchange        # exchange do tipo direct
+  fila: personagem.consultado          # fila que o @RabbitListener escuta
+  routing-key: personagem.consultado   # liga a exchange à fila (binding)
+  simular-falha: false     # true = o listener falha de propósito, para demonstrar o retry
 
 resilience4j:
   retry:
     instances:
-      personagemApi:           # @Retry(name = "personagemApi")
+      # Retry da chamada à API (PersonagemIntegrationImpl)
+      personagemApi:
         max-attempts: 3
         wait-duration: 500ms
-        retry-exceptions:
+        retry-exceptions:      # só tenta de novo em erro temporário (404 não entra)
           - org.springframework.web.client.ResourceAccessException    # timeout / sem conexão
           - org.springframework.web.client.HttpServerErrorException   # erro 5xx da API
+      # Retry do listener do RabbitMQ (PersonagemProcessador)
+      personagemListener:
+        max-attempts: 3        # tenta processar a mensagem até 3 vezes
+        wait-duration: 1s      # espera 1 segundo entre as tentativas

@@ -33,6 +33,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aspectj</artifactId>
         </dependency>
+        <!-- RabbitMQ: RabbitTemplate (send) e @RabbitListener (listen) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
         <!-- SPRING -->
 
         <!-- RESILIENCE4J: retry + fallback, configurado no application.yaml -->

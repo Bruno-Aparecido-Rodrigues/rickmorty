@@ -2,6 +2,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
+    <!-- POM "pai": não gera programa, só diz ao Maven quais módulos compilar e em que ordem -->
     <groupId>io.github.fatec.rickmorty</groupId>
     <artifactId>rickmorty</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -9,6 +11,7 @@
     <name>rickmorty</name>
 
     <modules>
+        <!-- domain primeiro: o spring depende dele -->
         <module>domain</module>
         <module>spring</module>
     </modules>
